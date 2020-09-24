@@ -93,7 +93,13 @@ export default {
   methods: {
     // 导出excel
     exportFile() {
-      export_json_to_excel(this.columns1, this.data1, "excel");
+      export_json_to_excel({
+        header: this.columns1, // 表头
+        data: this.data1, // 内容
+        title: 'title', // 表头name
+        key: 'key', // 表头code
+        fileName: 'excel' // 文件名
+      });
     },
     // exportFile() {
     //   const tHeader = this.cutValue(this.columns1, "title");

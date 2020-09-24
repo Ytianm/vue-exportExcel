@@ -155,29 +155,23 @@ export function export_json_to_excel_bak(th, jsonData, defaultTitle) {
     saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), title + ".xlsx")
 }
 
-export function export_json_to_excel(columns1, jsonData, defaultTitle) {
-
-    const th = cutValue(columns1, "title");
-    const filterVal = cutValue(columns1, "key");
-
-    const list = jsonData;
-    jsonData = formatJson(filterVal, list);    
+export function export_json_to_excel(options) {
+    var th = cutValue(options.header, options.title);
+    var filterVal = cutValue(options.header, options.key);
 
     /* original data */
 
-    var data = jsonData;
+    var data = formatJson(filterVal, options.data);
     data.unshift(th);
     var ws_name = "SheetJS";
 
     var wb = new Workbook(), ws = sheet_from_array_of_arrays(data);
-
 
     /* add worksheet to workbook */
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = ws;
 
     var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: false, type: 'binary'});
-    var title = defaultTitle || '列表'
+    var title = options.fileName || '列表'
     saveAs(new Blob([s2ab(wbout)], {type: "application/octet-stream"}), title + ".xlsx")
 }
-
